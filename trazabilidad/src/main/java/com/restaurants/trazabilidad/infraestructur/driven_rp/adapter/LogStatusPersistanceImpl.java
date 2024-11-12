@@ -28,4 +28,9 @@ public class LogStatusPersistanceImpl implements ILogStatusPersistance {
     public List<StatusLog> findByCustomerIdAndDateStarBetween(Integer customId, String startOfDay, String endOfDay) {
         return mapper.toListStatusLog(repository.findByCustomerIdAndDateStarBetween(customId,startOfDay,endOfDay));
     }
+
+    @Override
+    public List<StatusLog> findAll() {
+        return mapper.toListStatusLog(repository.findAll());
+    }
 }

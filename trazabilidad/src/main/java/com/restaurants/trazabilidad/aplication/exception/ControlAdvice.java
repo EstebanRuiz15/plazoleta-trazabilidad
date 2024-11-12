@@ -49,4 +49,18 @@ public class ControlAdvice {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.SERVICE_UNAVAILABLE);
     }
+
+    @ExceptionHandler(ErrorException.class)
+    public ResponseEntity<?> handleErrorFeignException(ErrorException ex, WebRequest request) {
+        Map<String, String> details = new HashMap<>();
+        details.put("error", ex.getMessage());
+
+        ExceptionResponse errorResponse = new ExceptionResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "Service Unavailable",
+                details
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }

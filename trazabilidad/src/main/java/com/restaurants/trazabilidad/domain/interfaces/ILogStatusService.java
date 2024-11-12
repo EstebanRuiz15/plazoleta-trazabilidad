@@ -1,5 +1,6 @@
 package com.restaurants.trazabilidad.domain.interfaces;
 
+import com.restaurants.trazabilidad.domain.model.OrderEfficiency;
 import com.restaurants.trazabilidad.domain.model.OrderStatus;
 import com.restaurants.trazabilidad.domain.model.StatusLog;
 
@@ -10,4 +11,5 @@ public interface ILogStatusService {
     void registerChange(OrderStatus status, Integer orderId, String employeEmail, Integer employeId);
     List<StatusLog> getAllRegisters();
     List<StatusLog> getOrderStatus();
+    OrderEfficiency getRecordsOrders(String filter);
 }
