@@ -1,11 +1,14 @@
 package com.restaurants.trazabilidad;
 
+import com.restaurants.trazabilidad.domain.exception.ErrorException;
 import com.restaurants.trazabilidad.domain.interfaces.ILogStatusPersistance;
 import com.restaurants.trazabilidad.domain.interfaces.IUserServiceClient;
+import com.restaurants.trazabilidad.domain.model.OrderEfficiency;
 import com.restaurants.trazabilidad.domain.model.OrderStatus;
 import com.restaurants.trazabilidad.domain.model.StatusLog;
 import com.restaurants.trazabilidad.domain.model.User;
 import com.restaurants.trazabilidad.domain.services.LogStatusServiceImpl;
+import com.restaurants.trazabilidad.domain.utils.ConstantsDomain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,9 +17,10 @@ import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -103,5 +107,43 @@ class LogStatusServiceImplTest {
         List<StatusLog> result = logStatusService.getOrderStatus();
 
         assertEquals(logs, result);
+    }
+
+    @Test
+    void getRecordsOrders_whenFilterIsRaking_shouldReturnRakingList() {
+        List<StatusLog> statusLogs = new ArrayList<>();
+        statusLogs.add(new StatusLog("1", 1, 101, "customer1@example.com", "2023-11-12 10:00", "2023-11-12 10:30", null, "PENDING", 201, "employee1@example.com"));
+        statusLogs.add(new StatusLog("2", 2, 102, "customer2@example.com", "2023-11-12 11:00", "2023-11-12 11:45", null, "COMPLETED", 202, "employee2@example.com"));
+
+        when(persistance.findAll()).thenReturn(statusLogs);
+
+        OrderEfficiency result = logStatusService.getRecordsOrders(ConstantsDomain.RANKING);
+
+        assertNotNull(result.getRaking());
+        assertNull(result.getTimeOrderEnd());
+        assertEquals(2, result.getRaking().size());
+        verify(persistance, times(1)).findAll();
+    }
+
+    @Test
+    void getRecordsOrders_whenFilterIsTimeEnd_shouldReturnTimeOrderEndList() {
+        List<StatusLog> statusLogs = new ArrayList<>();
+        statusLogs.add(new StatusLog("1", 1, 101, "customer1@example.com", "2023-11-12 10:00", "2023-11-12 10:30", "PENDING", "PENDING", 201, "employee1@example.com"));
+        statusLogs.add(new StatusLog("2", 2, 102, "customer2@example.com", "2023-11-12 11:00", "2023-11-12 11:45", "CANCELED", "DELIVERED", 202, "employee2@example.com"));
+
+        when(persistance.findAll()).thenReturn(statusLogs);
+
+        OrderEfficiency result = logStatusService.getRecordsOrders(ConstantsDomain.TIME_END);
+
+        assertNotNull(result.getTimeOrderEnd());
+        assertNull(result.getRaking());
+        assertEquals(2, result.getTimeOrderEnd().size());
+        verify(persistance, times(1)).findAll();
+    }
+
+    @Test
+    void getRecordsOrders_whenFilterIsInvalid_shouldThrowErrorException() {
+        assertThrows(ErrorException.class, () -> logStatusService.getRecordsOrders("INVALID_FILTER"));
+        verify(persistance, never()).findAll();
     }
 }
