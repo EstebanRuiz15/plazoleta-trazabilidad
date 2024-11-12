@@ -9,4 +9,5 @@ public interface  ILogStatusPersistance {
    void save(StatusLog status);
     StatusLog findByOrderId(Integer ordeId);
     List<StatusLog> findByCustomerIdAndDateStarBetween(Integer customId,String startOfDay, String endOfDay);
+    List<StatusLog> findAll();
 }
