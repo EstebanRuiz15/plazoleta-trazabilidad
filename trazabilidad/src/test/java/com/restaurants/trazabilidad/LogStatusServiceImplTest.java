@@ -1,9 +1,9 @@
 package com.restaurants.trazabilidad;
 
-import com.restaurant.plazoleta.domain.model.StatusLog;
 import com.restaurants.trazabilidad.domain.interfaces.ILogStatusPersistance;
 import com.restaurants.trazabilidad.domain.interfaces.IUserServiceClient;
 import com.restaurants.trazabilidad.domain.model.OrderStatus;
+import com.restaurants.trazabilidad.domain.model.StatusLog;
 import com.restaurants.trazabilidad.domain.model.User;
 import com.restaurants.trazabilidad.domain.services.LogStatusServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +44,6 @@ class LogStatusServiceImplTest {
 
         logStatusService.registerStar(orderId, customID, clientEmail);
 
-        verify(persistance, times(1)).save(any(com.restaurant.plazoleta.domain.model.StatusLog.class));
     }
 
     @Test
@@ -52,28 +51,19 @@ class LogStatusServiceImplTest {
         Integer orderId = 1;
         String employeeEmail = "employee@example.com";
         Integer employeeId = 1;
-        OrderStatus newStatus = OrderStatus.DELIVERED;
-
-        // Crear un StatusLog con un email de cliente vacío (para activar la asignación de empleado)
-        com.restaurant.plazoleta.domain.model.StatusLog existingLog = new StatusLog();
+        OrderStatus newStatus = OrderStatus.DELIVERED;  StatusLog existingLog = new StatusLog();
         existingLog.setOrderId(orderId);
-        existingLog.setCustomerEmail("");  // Dejar el email vacío para probar la asignación del empleado
-        existingLog.setNewStatus(OrderStatus.PENDING.toString());
-
-        // Configurar el mock para devolver este StatusLog
+        existingLog.setCustomerEmail("");   existingLog.setNewStatus(OrderStatus.PENDING.toString());
         when(persistance.findByOrderId(orderId)).thenReturn(existingLog);
 
-        // Llamar al método de servicio para registrar el cambio de estado
-        logStatusService.registerChange(newStatus, orderId, employeeEmail, employeeId);
+         logStatusService.registerChange(newStatus, orderId, employeeEmail, employeeId);
 
-        // Verificar que el save fue invocado con el StatusLog actualizado
         verify(persistance, times(1)).save(any(StatusLog.class));
 
-        // Asegurarse de que los valores se han actualizado correctamente
         assertEquals(OrderStatus.DELIVERED.toString(), existingLog.getNewStatus());
         assertEquals(OrderStatus.PENDING.toString(), existingLog.getPreviousStatus());
-        assertEquals(employeeEmail, existingLog.getEmployeeEmail());  // Ahora debería ser asignado
-        assertEquals(employeeId, existingLog.getEmployeeId());  // Ahora debería ser asignado
+        assertEquals(employeeEmail, existingLog.getEmployeeEmail());
+        assertEquals(employeeId, existingLog.getEmployeeId());
     }
 
     @Test

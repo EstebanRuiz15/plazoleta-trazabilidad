@@ -1,4 +1,4 @@
-package com.restaurant.plazoleta.domain.model;
+package com.restaurants.trazabilidad.domain.model;
 
 public class StatusLog {
     private String id;
@@ -11,6 +11,7 @@ public class StatusLog {
     private String newStatus;
     private Integer employeeId;
     private String employeeEmail;
+    private String timeElapsed;
 
     public StatusLog() {
     }
@@ -26,6 +27,14 @@ public class StatusLog {
         this.newStatus = newStatus;
         this.employeeId = employeeId;
         this.employeeEmail = employeeEmail;
+    }
+
+    public String getTimeElapsed() {
+        return timeElapsed;
+    }
+
+    public void setTimeElapsed(String timeElapsed) {
+        this.timeElapsed = timeElapsed;
     }
 
     public String getId() {

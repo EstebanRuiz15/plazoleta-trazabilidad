@@ -1,11 +1,8 @@
 package com.restaurants.trazabilidad.infraestructur.driven_rp.adapter;
-
-import com.restaurant.plazoleta.domain.model.StatusLog;
 import com.restaurants.trazabilidad.domain.interfaces.ILogStatusPersistance;
-import com.restaurants.trazabilidad.infraestructur.driven_rp.entity.OrderStatusLogEntity;
+import com.restaurants.trazabilidad.domain.model.StatusLog;
 import com.restaurants.trazabilidad.infraestructur.driven_rp.mapper.OrderStatusLogMapper;
 import com.restaurants.trazabilidad.infraestructur.driven_rp.persistence.OrderStatusRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

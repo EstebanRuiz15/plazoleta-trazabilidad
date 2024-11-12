@@ -1,7 +1,7 @@
 package com.restaurants.trazabilidad.domain.interfaces;
 
-import com.restaurant.plazoleta.domain.model.StatusLog;
 import com.restaurants.trazabilidad.domain.model.OrderStatus;
+import com.restaurants.trazabilidad.domain.model.StatusLog;
 
 import java.util.List;
 

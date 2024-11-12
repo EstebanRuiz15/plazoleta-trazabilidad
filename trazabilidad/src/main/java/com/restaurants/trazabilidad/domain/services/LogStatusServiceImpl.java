@@ -1,10 +1,10 @@
 package com.restaurants.trazabilidad.domain.services;
 
-import com.restaurant.plazoleta.domain.model.StatusLog;
 import com.restaurants.trazabilidad.domain.interfaces.ILogStatusPersistance;
 import com.restaurants.trazabilidad.domain.interfaces.ILogStatusService;
 import com.restaurants.trazabilidad.domain.interfaces.IUserServiceClient;
 import com.restaurants.trazabilidad.domain.model.OrderStatus;
+import com.restaurants.trazabilidad.domain.model.StatusLog;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

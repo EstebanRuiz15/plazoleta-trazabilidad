@@ -1,6 +1,5 @@
 package com.restaurants.trazabilidad.infraestructur.driven_rp.mapper;
-
-import com.restaurant.plazoleta.domain.model.StatusLog;
+import com.restaurants.trazabilidad.domain.model.StatusLog;
 import com.restaurants.trazabilidad.infraestructur.driven_rp.entity.OrderStatusLogEntity;
 import org.mapstruct.Mapper;
 
